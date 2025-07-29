@@ -49,7 +49,7 @@ const menuItems = [
         icon: <MdWork />
       },
       {
-        title: "Reorts",
+        title: "Reports",
         path: "/dashboard/reports",
         icon: <MdAnalytics />
       },
