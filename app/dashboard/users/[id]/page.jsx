@@ -22,7 +22,7 @@ const SingleUserPage = () => {
                     <label>Phone</label>
                     <input type="phone" name='phone' placeholder='923823234' />
                     <label>Address</label>
-                    <textarea name="address" id="address" placeholder='Address'></textarea>
+                    <textarea name="address" id="address" rows={10} placeholder='Address'></textarea>
                     <label>is Admin?</label>
                     <select name="isAdmin" id="isAdmin">
                         <option value={true}>Yes</option>
