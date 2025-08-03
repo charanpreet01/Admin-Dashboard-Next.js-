@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Search from '../../ui/dashboard/searchComponent/Search'
 import Image from 'next/image'
 import { fetchProducts } from '../../lib/data'
+import { deleteProduct } from '../../lib/actions'
 
 const ProductsPage = async ({ searchParams }) => {
 
@@ -58,7 +59,10 @@ const ProductsPage = async ({ searchParams }) => {
                     <button className={`${styles.button} ${styles.viewButton}`}>View</button>
                   </Link>
 
-                  <button className={`${styles.button} ${styles.deleteButton}`}>Delete</button>
+                  <form action={deleteProduct}>
+                    <input type="hidden" name="id" value={product._id} />
+                    <button className={`${styles.button} ${styles.deleteButton}`}>Delete</button>
+                  </form>
                 </div>
               </td>
             </tr>
