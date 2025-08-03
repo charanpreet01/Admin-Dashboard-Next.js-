@@ -38,6 +38,40 @@ export const addUser = async (formData) => {
 
 }
 
+export const updateUser = async (formData) => {
+
+    const { id, username, email, password, phone, isAdmin, isActive, address } = Object.fromEntries(formData);
+
+    try {
+
+        connectToDB();
+
+        const updateFields = {
+            username, email, password, phone, isAdmin, isActive, address
+        }
+
+        Object.keys(updateFields).forEach(key => {
+            if (updateFields[key] === '') {
+                delete updateFields[key];
+            }
+        })
+
+        if(password) {
+            updateFields.password = await bcrypt.hash(password, 10);
+        }
+
+        await User.findByIdAndUpdate(id, updateFields);
+
+    } catch (error) {
+        console.log(`Error updating user: ${error}`);
+        throw new Error(`Failed to update user: ${error}`);
+    }
+
+    revalidatePath('/dashboard/users');
+    redirect('/dashboard/users');
+
+}
+
 export const addProduct = async (formData) => {
 
     const { title, price, stock, color, size, desc } = Object.fromEntries(formData);
@@ -60,6 +94,36 @@ export const addProduct = async (formData) => {
     } catch (error) {
         console.log(`Error adding product: ${error}`);
         throw new Error(`Failed to add product: ${error}`);
+    }
+
+    revalidatePath('/dashboard/products');
+    redirect('/dashboard/products');
+
+}
+
+export const updateProduct = async (formData) => {
+
+    const { id, title, desc, price, stock, size, color } = Object.fromEntries(formData);
+
+    try {
+
+        connectToDB();
+
+        const updateFields = {
+            title, desc, price, stock, size, color
+        }
+
+        Object.keys(updateFields).forEach(key => {
+            if (updateFields[key] === '') {
+                delete updateFields[key];
+            }
+        })
+
+        await Product.findByIdAndUpdate(id, updateFields);
+
+    } catch (error) {
+        console.log(`Error updating product: ${error}`);
+        throw new Error(`Failed to update product: ${error}`);
     }
 
     revalidatePath('/dashboard/products');

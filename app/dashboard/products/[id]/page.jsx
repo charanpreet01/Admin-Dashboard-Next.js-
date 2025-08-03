@@ -1,28 +1,36 @@
 import Image from 'next/image'
 import styles from '../../../ui/dashboard/products/singleProduct/singleProduct.module.css'
+import { fetchProduct } from '../../../lib/data';
+import { updateProduct } from '../../../lib/actions';
 
-const SingleProductPage = () => {
+const SingleProductPage = async({params}) => {
+
+    const {id} = params;
+
+    const product = await fetchProduct(id);
+    
     return (
         <div className={styles.container}>
             <div className={styles.infoContainer}>
                 <div className={styles.imgContainer}>
-                    <Image src='/noproduct.jpg' alt='Uses Avatar' fill />
+                    <Image src={product.img || '/noproduct.jpg'} alt='Uses Avatar' fill />
                 </div>
-                Samsung
+                {product.title}
             </div>
 
             <div className={styles.formContainer}>
-                <form action="" className={styles.form}>
+                <form action={updateProduct} className={styles.form}>
+                    <input type="hidden" name='id' value={product._id} />
                     <label>Title</label>
-                    <input type="text" name='title' placeholder='Samsung' />
+                    <input type="text" name='title' placeholder={product.title} />
                     <label>Price</label>
-                    <input type="number" name='price' placeholder='56000' />
+                    <input type="number" name='price' placeholder={product.price} />
                     <label>Stock</label>
-                    <input type="number" name='stock' placeholder='45' />
+                    <input type="number" name='stock' placeholder={product.stock} />
                     <label>Color</label>
-                    <input type="text" name='color' placeholder='white' />
+                    <input type="text" name='color' placeholder={product.color} />
                     <label>Size</label>
-                    <input type="text" name='size' placeholder='Ultra' />
+                    <input type="text" name='size' placeholder={product.size} />
                     <label>Category</label>
                     <select name="cat" id="cat">
                         <option value="kitchen">Kitchen</option>
@@ -30,7 +38,7 @@ const SingleProductPage = () => {
                         <option value="computer">Computer</option>
                     </select>
                     <label>Description</label>
-                    <textarea name="desc" id="desc" row={10} placeholder='Description'></textarea>
+                    <textarea name="desc" id="desc" row={10} placeholder={product.desc}></textarea>
 
                     <button type='submit'>Update</button>
                 </form>
